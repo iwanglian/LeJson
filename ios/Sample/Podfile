@@ -1,0 +1,4 @@
+platform:ios,'7.0'
+   pod 'Mantle', '~> 2.0.6'
+   pod 'MJExtension', '~> 3.0.10'
+   pod 'YYModel', '~> 1.0.2'

@@ -1,0 +1,49 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.0'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+task lejsonGS(type: Exec) {
+    commandLine 'python','../../LeJson/lejson.py' ,'-d', 'gs', '--cp', 'GS', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
+}
+
+task lejsonFJ(type: Exec) {
+    commandLine 'python','../../LeJson/lejson.py' ,'-d', 'fj', '--cp', 'FJ', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
+}
+
+
+task lejsonJC(type: Exec) {
+    commandLine 'python','../../LeJson/lejson.py' ,'-d', 'jc', '--cp', 'JC', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
+}
+
+task lejsonLS(type: Exec) {
+    commandLine 'python','../../LeJson/lejson.py' ,'-d', 'ls', '--cp', 'LS', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
+}
+
+task lejson{
+    dependsOn 'lejsonGS'
+    dependsOn 'lejsonFJ'
+    dependsOn 'lejsonJC'
+    dependsOn 'lejsonLS'
+
+}
+
