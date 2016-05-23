@@ -1,0 +1,1 @@
+python LeJson\lejson.py -d mj -o Sample\Model Sample\Json --cp MJ
