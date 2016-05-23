@@ -82,11 +82,14 @@ if __name__ == '__main__':
     if args.dialect in s_java_dialect_list:
         if not args.package:
             output_abs_path = os.path.abspath(output_path)
-            output_abs_path_parts = output_abs_path.split('/src/main/java/')
+            sep = '/src/main/java/'
+            if os.name == 'nt':
+                sep = '\\src\\main\\java\\'
+            output_abs_path_parts = output_abs_path.split(sep)
             if len(output_abs_path_parts) < 2:
                 raise Exception("Not assign a Package for Java")
             else:
-                package = output_abs_path_parts[-1].replace('/', '.')
+                package = output_abs_path_parts[-1].replace('/', '.').replace('\\', '.')
 
     for input_file_path in input_file_list:
         json_name = os.path.splitext(os.path.basename(input_file_path))[0]

@@ -1,1 +1,1 @@
-python LeJson\lejson.py -d mj -o Sample\Model Sample\Json --cp MJ
+python LeJson\lejson.py -d gs -o android/Sample/app/src/main/java/com/github/iwanglian/lejson/model android/Sample/app/src/main/assets --cp GS
