@@ -24,7 +24,8 @@ task lejsonGS(type: Exec) {
     commandLine 'python','../../LeJson/lejson.py' ,'-d', 'gs', '--cp', 'GS', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
 }
 ```
-5. 每次修改或新增json时,运行上面的task
+5. 编辑 `app` 的 `Configurations`, 在 `General` 的 `Before Launch` 插入刚创建的 `lejson` task
+6. 每次 `run` 或 `debug` 会自动更新 模型代码 
 
 
 ## 用法
