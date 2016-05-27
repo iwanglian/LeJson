@@ -7,7 +7,7 @@
 1. 在工程中创建 `Json` 目录, 存放所有的 `json`源文件, 不加入工程的target里.
 2. 在工程中创建 `Model` 目录,存入所有自动生成的  `Model` 文件,加入工程target的compile source里.
 3. 使用 `cocoapod` 导入 `MJExtension` 或 `YYModel`  `Mantle`
-3. 在工程 `build phrase` 中新增一个 `run script`   
+3. 在工程 `build phrase` 中新增一个 `run script`  ,放在 `complie source` 之前  
 ```bash
 python LeJson.py -d mj -o <model_path> <json_path>`
 ```
@@ -24,7 +24,7 @@ task lejsonGS(type: Exec) {
     commandLine 'python','../../LeJson/lejson.py' ,'-d', 'gs', '--cp', 'GS', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
 }
 ```
-5. 编辑 `app` 的 `Configurations`, 在 `General` 的 `Before Launch` 插入刚创建的 `lejson` task
+5. 编辑 `app` 的 `Configurations`, 在 `General` 的 `Before Launch` 插入刚创建的 `lejson` task, 放在 `Gradle-aware Make` 之前 
 6. 每次 `run` 或 `debug` 会自动更新 模型代码 
 
 
