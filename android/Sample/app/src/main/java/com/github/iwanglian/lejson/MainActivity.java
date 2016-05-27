@@ -52,10 +52,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mHandler.post(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 int round = 1000;
+                int sleepTime = 2000;
 
                 Date beforeAN = new Date();
                 for (int i = 0; i < round; i++) {
@@ -81,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 msg.obj = jaResult;
                 mHandler.sendMessage(msg);
 
-
                 Date beforeGS = new Date();
                 for (int i = 0; i < round; i++) {
                     testGS();
@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 msg.obj = gsResult;
                 mHandler.sendMessage(msg);
 
-
                 Date beforeFJ = new Date();
                 for (int i = 0; i < round; i++) {
                     testFJ();
@@ -106,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
                 msg.what = 1;
                 msg.obj = resultFJ;
                 mHandler.sendMessage(msg);
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
 
                 Date beforeLS = new Date();
@@ -122,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-        });
+        },2000);
     }
 
     private void testGS() {
