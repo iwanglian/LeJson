@@ -67,13 +67,13 @@ def gen_field_meta(base_class_name, dialect, field_name, prefix, prop, sub_value
         if dialect in ['yy', 'mt']:
             print '======WARNING==== YYModel and Mantle does not support Array in Array, please remove in Json File'
         field_generic_type = sub_value_type
-        sub_class_name = base_class_name + '$' + u2C(prop)
+        sub_class_name = base_class_name + '_' + u2C(prop)
         sub_class_meta = gen_class_meta(sub_class_name, dialect, sub_value, prefix)
         field_class_meta = sub_class_meta
     elif sub_value_type in FieldMeta.s_dict_types:
         field_generic_type = sub_value_type
         if dialect in s_objc_dialect_list:
-            sub_class_name = base_class_name + '$' + u2C(prop)
+            sub_class_name = base_class_name + '_' + u2C(prop)
         else:
             sub_class_name = u2C(prop)
         sub_class_meta = gen_class_meta(sub_class_name, dialect, sub_value, prefix)
