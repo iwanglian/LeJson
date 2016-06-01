@@ -44,11 +44,10 @@ task lejsonJO(type: Exec) {
 }
 
 task lejson{
-//    dependsOn 'lejsonGS'
-//    dependsOn 'lejsonFJ'
-//    dependsOn 'lejsonJC'
-//    dependsOn 'lejsonLS'
-//    dependsOn 'lejsonJO'
-
+    dependsOn 'lejsonGS'
+    dependsOn 'lejsonFJ'
+    dependsOn 'lejsonJC'
+    dependsOn 'lejsonLS'
+    dependsOn 'lejsonJO'
 }
 

@@ -17,6 +17,11 @@ def is_java_output_expired(input_file_path, out_path, base_class_name):
         return False
 
 
+def is_java_output_exist(out_path, base_class_name):
+    body_path = os.path.join(out_path, base_class_name + '.java')
+    return os.path.exists(body_path)
+
+
 def write_java_all_class_meta(base_class_meta, path, package):
     java_fp = open(os.path.join(path, LeUtils.s_base_class_name + ".java"), 'w')
     java_fp.write(gen_desc())
@@ -49,6 +54,7 @@ import org.json.JSONObject;
     java_fp.close()
 
     print '%s OK!' % java_fp.name
+
 
 def write_java_class_meta(class_meta, java_fp):
     java_fp.write(class_meta.gen_java_class_meta())

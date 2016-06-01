@@ -5,8 +5,8 @@ __author__ = 'alickwang'
 
 from JsonParser import gen_dict_meta
 from LeUtils import LeUtils, cap, s_objc_dialect_list, s_java_dialect_list
-from ObjcWriter import write_objc_all_class_meta, is_objc_output_expired
-from JavaWriter import write_java_all_class_meta, is_java_output_expired
+from ObjcWriter import write_objc_all_class_meta, is_objc_output_expired, is_objc_output_exist
+from JavaWriter import write_java_all_class_meta, is_java_output_expired, is_java_output_exist
 
 import argparse
 import json, re
@@ -50,6 +50,8 @@ if __name__ == '__main__':
     parser.add_argument('-o', dest='output_path', help='输出路径,默认为当前路径')
     parser.add_argument('-f', dest='force_update', action='store_true',
                         help='强制更新,即使json未变化 ,也生成新的目标模型')
+    parser.add_argument('-k', dest='skip_exist', action='store_true',
+                        help='如果目标文件已经存在,则跳过')
     # parser.add_argument('--name', dest='class_name', default="",
     #                     help='输出的结果类名,针对单文件时有效')
     parser.add_argument('--fp', dest='field_prefix', default='', help='生成字段的前缀')
@@ -101,16 +103,25 @@ if __name__ == '__main__':
         if args.class_prefix:
             base_class_name = args.class_prefix + base_class_name
 
-        if not args.force_update:
-            is_expired = False
-            if args.dialect in s_java_dialect_list:
+        is_expired = False
+        is_exist = False
+        if args.dialect in s_java_dialect_list:
+            is_exist = is_java_output_exist(output_path, base_class_name)
+            if is_exist:
                 is_expired = is_java_output_expired(input_file_path, output_path, base_class_name)
-            else:
+        else:
+            is_exist = is_objc_output_exist(output_path, base_class_name)
+            if is_exist:
                 is_expired = is_objc_output_expired(input_file_path, output_path, base_class_name)
 
-            if not is_expired:
-                print '%s/%s is latest model, continue!' % (output_path, base_class_name)
+        if is_exist:
+            if args.skip_exist:
+                print '%s/%s is exist, continue!' % (output_path, base_class_name)
                 continue
+            elif not is_expired:
+                if not args.force_update:
+                    print '%s/%s is expired, and not force to update, continue!' % (output_path, base_class_name)
+                    continue
 
         LeUtils.s_field_prefix = args.field_prefix
         LeUtils.s_dialect = args.dialect

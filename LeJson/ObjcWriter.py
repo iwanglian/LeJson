@@ -20,6 +20,12 @@ def is_objc_output_expired(input_file_path, out_path, base_class_name):
         return False
 
 
+def is_objc_output_exist(out_path, base_class_name):
+    head_path = os.path.join(out_path, base_class_name + '.h')
+    body_path = os.path.join(out_path, base_class_name + '.m')
+    return os.path.exists(head_path) and os.path.exists(body_path)
+
+
 def write_objc_all_class_meta(base_class_meta, path):
     head_fp = open(os.path.join(path, LeUtils.s_base_class_name + ".h"), 'w')
     body_fp = open(os.path.join(path, LeUtils.s_base_class_name + ".m"), 'w')
