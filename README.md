@@ -30,8 +30,9 @@ task lejsonGS(type: Exec) {
 
 ## 用法
 ```
-usage: LeJson.py [-h] -d {mj,mt,yy,gs,jc,fj,ls} [-o OUTPUT_PATH] [-f]
-                 [--fp FIELD_PREFIX] [--cp CLASS_PREFIX] [--pkg PACKAGE]
+usage: LeJson.py [-h] -d {mj,mt,yy,jo,gs,jc,fj,ls,le} [-o OUTPUT_PATH] [-f]
+                 [-k] [--fp FIELD_PREFIX] [--cp CLASS_PREFIX] [--pkg PACKAGE]
+                 [--jp]
                  [input [input ...]]
 
 自动生成JSON模型类
@@ -42,15 +43,18 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -d {mj,mt,yy,gs,jc,fj,ls}
+  -d {mj,mt,yy,jo,gs,jc,fj,ls,le}
                         采用的解析方法,必填.
   -o OUTPUT_PATH        输出路径,默认为当前路径
   -f                    强制更新,即使json未变化
                         ,也生成新的目标模型
+  -k                    如果目标文件已经存在,则跳过
   --fp FIELD_PREFIX     生成字段的前缀
   --cp CLASS_PREFIX     输出结果类名的前缀
   --pkg PACKAGE         如果是Java类,需要指定其package;默认会根据
-                        OUTPUT_PATH 计算
+                         OUTPUT_PATH 计算
+  --jp                  生成Java代码的字段限定为public,不使用gett
+                        er和setter
 ```
 
 ## 目前支持以下7种解析Json方法
@@ -60,6 +64,7 @@ optional arguments:
 3. yy [YYModel](https://github.com/ibireme/YYModel)
 
 ### Java
+1. jo [JSONObject](http://github.com/iwanglian/LeJson)
 1. gs [gson](https://github.com/google/gson)
 2. fj [fastjson](https://github.com/alibaba/fastjson)
 3. ja [jackson](https://github.com/FasterXML/jackson)
@@ -76,7 +81,7 @@ optional arguments:
 
 在红米3上耗时为:
 
-* Java原生（解析为map,未放入Model）   0.518000
+* JSONObject                       0.600000
 * LoganSquare                      0.627000
 * Gson                             0.649000
 * Fastjson                         0.715000
@@ -109,7 +114,22 @@ ProtoBuf` 根据 `proto` 定义文件,使用工具自动生成 `Objective-C` 和
 4. 命令执行,方便写入`Shell` 或 `batch` ,自动构建.
 
 第一个版本写得很凌乱, 只支持 'Objective-c'中的 'MJExtention'  于是考虑重构, 诞生了这个第二版.
+
+
 第二版将 `json` 解析成一个中间对象, 然后再根据不同语言的要求生成相应的代码. 
 又参照 `GsonFormat` ,实现了 Java版本.
+
+第三版是为了实现Java的兼容处理, 开发过程中重新整理了语法树模型.
+有些创业公司的Server的程序使用了世界上最好的PHP语法开发, 输出的 `JSON` 非常灵活. 例如:
+字段  `foo` 在语义上是 布尔型, 但PHP在 `true` 的时候输出字符串 `"1"` ,在 `false` 的时候输出数值 `0`. 
+如果是使用iOS的 `YYModel` `MJExtention` 等库, 在 `Model` 里将 `foo` 字段类型定为 `BOOL`, 这些库会自动将灵活的值自动转型成相应的 `BOOL`值.
+
+但是 Android 使用的几个模型库, 当类型不完全匹配时, 直接抛出异常, 不再往下解析下去了.显示 ,  `int`  `boolean`  `String` 都不能应对所有情况.
+而原始的 `JSONObject` 由于不依赖模型里的类型,反而不会出错,并且提供了兼容处理的方法.
+
+这里就提供 jo 解析方法, 先将内容转成 `JSONObject` , 再从中其值,放入模型中.
+经过测试, jo 比其它方法,速度稍快, 且不依赖第三方库, 推荐使用
+ 
+
 
 
