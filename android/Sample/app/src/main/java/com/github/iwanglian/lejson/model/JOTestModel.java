@@ -6,21 +6,115 @@
 package com.github.iwanglian.lejson.model;
 
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
 
-public class JCTestModel {
-	@JsonProperty("white_content")
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+
+public class JOTestModel {
 	private List<String> whiteContent; 
-	@JsonProperty("jump_config")
 	private List<JumpConfig> jumpConfig; 
-	@JsonProperty("res_info")
 	private String resInfo; 
-	@JsonProperty("bottom_config")
 	private List<BottomConfig> bottomConfig; 
-	@JsonProperty("result")
 	private int result; 
-	@JsonProperty("is_login")
 	private int isLogin; 
+
+    public static JOTestModel objectFromString(String string) throws JSONException {
+        JSONObject jsonObject = new JSONObject(string);
+        return objectFromJSON(jsonObject);
+    }
+
+    public static String stringFromObject(JOTestModel object) throws JSONException {
+        JSONObject jsonObject = JSONFromObject(object);
+        return jsonObject.toString();
+    }
+
+	public static JOTestModel objectFromJSON(JSONObject jsonObject) {
+	    JOTestModel object = new JOTestModel();
+	
+		if (jsonObject.optJSONArray("white_content") != null) {
+		    JSONArray jsonArray = jsonObject.optJSONArray("white_content");
+		    List<String> list = new ArrayList<>();
+		    for (int i = 0; i < jsonArray.length(); i++) {
+				String item = jsonArray.optString(i);
+				list.add(item);
+		    }
+		    object.whiteContent = list;
+		}
+		
+		if (jsonObject.optJSONArray("jump_config") != null) {
+		    JSONArray jsonArray = jsonObject.optJSONArray("jump_config");
+		    List<JumpConfig> list = new ArrayList<>();
+		    for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject jsonObj = jsonArray.optJSONObject(i);
+				if(jsonObj!=null) {
+				    JumpConfig item = JumpConfig.objectFromJSON(jsonObj);
+				    list.add(item);
+				}
+		    }
+		    object.jumpConfig = list;
+		}
+		
+		object.resInfo = jsonObject.optString("res_info");
+		if (jsonObject.optJSONArray("bottom_config") != null) {
+		    JSONArray jsonArray = jsonObject.optJSONArray("bottom_config");
+		    List<BottomConfig> list = new ArrayList<>();
+		    for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject jsonObj = jsonArray.optJSONObject(i);
+				if(jsonObj!=null) {
+				    BottomConfig item = BottomConfig.objectFromJSON(jsonObj);
+				    list.add(item);
+				}
+		    }
+		    object.bottomConfig = list;
+		}
+		
+		object.result = jsonObject.optInt("result");
+		object.isLogin = jsonObject.optInt("is_login");
+		return object;
+	}
+	
+	public static JSONObject JSONFromObject(JOTestModel object) {
+	    JSONObject jsonObject = new JSONObject();
+	    try { 
+			if(object.whiteContent!=null){
+			    List<String> list = object.whiteContent;
+			    JSONArray jsonArray = new JSONArray();
+				for (String item : list) {
+				    jsonArray.put(item);
+				} 
+			    jsonObject.put("white_content",jsonArray);
+			} 
+			if(object.jumpConfig!=null){
+			    List<JumpConfig> list = object.jumpConfig;
+			    JSONArray jsonArray = new JSONArray();
+				for (JumpConfig item : list) {
+				    JSONObject jsonObj = JumpConfig.JSONFromObject(item);
+				    jsonArray.put(jsonObj);
+				} 
+			    jsonObject.put("jump_config",jsonArray);
+			} 
+			jsonObject.put("res_info", object.resInfo);
+			if(object.bottomConfig!=null){
+			    List<BottomConfig> list = object.bottomConfig;
+			    JSONArray jsonArray = new JSONArray();
+				for (BottomConfig item : list) {
+				    JSONObject jsonObj = BottomConfig.JSONFromObject(item);
+				    jsonArray.put(jsonObj);
+				} 
+			    jsonObject.put("bottom_config",jsonArray);
+			} 
+			jsonObject.put("result", object.result);
+			jsonObject.put("is_login", object.isLogin);
+		} catch (JSONException e) {
+		    e.printStackTrace();
+		}
+		
+		return jsonObject; 
+	}
 
     public List<String> getWhiteContent() {
         return whiteContent;
@@ -71,38 +165,70 @@ public class JCTestModel {
     } 
 
 	public static class JumpConfig {
-		@JsonProperty("title_on_color")
 		private String titleOnColor; 
-		@JsonProperty("title_color")
 		private String titleColor; 
-		@JsonProperty("big_img_on_url")
 		private String bigImgOnUrl; 
-		@JsonProperty("title")
 		private String title; 
-		@JsonProperty("url")
 		private String url; 
-		@JsonProperty("start_version")
 		private String startVersion; 
-		@JsonProperty("end_version")
 		private String endVersion; 
-		@JsonProperty("img_on_url")
 		private String imgOnUrl; 
-		@JsonProperty("big_img_url")
 		private String bigImgUrl; 
-		@JsonProperty("config_key")
 		private String configKey; 
-		@JsonProperty("arguments")
 		private String arguments; 
-		@JsonProperty("key")
 		private String key; 
-		@JsonProperty("h5_enabled")
 		private boolean h5Enabled; 
-		@JsonProperty("position")
 		private String position; 
-		@JsonProperty("img_url")
 		private String imgUrl; 
-		@JsonProperty("regular")
 		private String regular; 
+	
+		public static JumpConfig objectFromJSON(JSONObject jsonObject) {
+		    JumpConfig object = new JumpConfig();
+		
+			object.titleOnColor = jsonObject.optString("title_on_color");
+			object.titleColor = jsonObject.optString("title_color");
+			object.bigImgOnUrl = jsonObject.optString("big_img_on_url");
+			object.title = jsonObject.optString("title");
+			object.url = jsonObject.optString("url");
+			object.startVersion = jsonObject.optString("start_version");
+			object.endVersion = jsonObject.optString("end_version");
+			object.imgOnUrl = jsonObject.optString("img_on_url");
+			object.bigImgUrl = jsonObject.optString("big_img_url");
+			object.configKey = jsonObject.optString("config_key");
+			object.arguments = jsonObject.optString("arguments");
+			object.key = jsonObject.optString("key");
+			object.h5Enabled = jsonObject.optBoolean("h5_enabled");
+			object.position = jsonObject.optString("position");
+			object.imgUrl = jsonObject.optString("img_url");
+			object.regular = jsonObject.optString("regular");
+			return object;
+		}
+		
+		public static JSONObject JSONFromObject(JumpConfig object) {
+		    JSONObject jsonObject = new JSONObject();
+		    try { 
+				jsonObject.put("title_on_color", object.titleOnColor);
+				jsonObject.put("title_color", object.titleColor);
+				jsonObject.put("big_img_on_url", object.bigImgOnUrl);
+				jsonObject.put("title", object.title);
+				jsonObject.put("url", object.url);
+				jsonObject.put("start_version", object.startVersion);
+				jsonObject.put("end_version", object.endVersion);
+				jsonObject.put("img_on_url", object.imgOnUrl);
+				jsonObject.put("big_img_url", object.bigImgUrl);
+				jsonObject.put("config_key", object.configKey);
+				jsonObject.put("arguments", object.arguments);
+				jsonObject.put("key", object.key);
+				jsonObject.put("h5_enabled", object.h5Enabled);
+				jsonObject.put("position", object.position);
+				jsonObject.put("img_url", object.imgUrl);
+				jsonObject.put("regular", object.regular);
+			} catch (JSONException e) {
+			    e.printStackTrace();
+			}
+			
+			return jsonObject; 
+		}
 	
 	    public String getTitleOnColor() {
 	        return titleOnColor;
@@ -235,40 +361,73 @@ public class JCTestModel {
 	
 
 	public static class BottomConfig {
-		@JsonProperty("title_on_color")
 		private String titleOnColor; 
-		@JsonProperty("title_color")
 		private String titleColor; 
-		@JsonProperty("big_img_on_url")
 		private String bigImgOnUrl; 
-		@JsonProperty("title")
 		private String title; 
-		@JsonProperty("url")
 		private String url; 
-		@JsonProperty("start_version")
 		private String startVersion; 
-		@JsonProperty("tag")
 		private String tag; 
-		@JsonProperty("end_version")
 		private String endVersion; 
-		@JsonProperty("img_on_url")
 		private String imgOnUrl; 
-		@JsonProperty("big_img_url")
 		private String bigImgUrl; 
-		@JsonProperty("config_key")
 		private String configKey; 
-		@JsonProperty("arguments")
 		private String arguments; 
-		@JsonProperty("key")
 		private String key; 
-		@JsonProperty("h5_enabled")
 		private boolean h5Enabled; 
-		@JsonProperty("position")
 		private String position; 
-		@JsonProperty("img_url")
 		private String imgUrl; 
-		@JsonProperty("regular")
 		private String regular; 
+	
+		public static BottomConfig objectFromJSON(JSONObject jsonObject) {
+		    BottomConfig object = new BottomConfig();
+		
+			object.titleOnColor = jsonObject.optString("title_on_color");
+			object.titleColor = jsonObject.optString("title_color");
+			object.bigImgOnUrl = jsonObject.optString("big_img_on_url");
+			object.title = jsonObject.optString("title");
+			object.url = jsonObject.optString("url");
+			object.startVersion = jsonObject.optString("start_version");
+			object.tag = jsonObject.optString("tag");
+			object.endVersion = jsonObject.optString("end_version");
+			object.imgOnUrl = jsonObject.optString("img_on_url");
+			object.bigImgUrl = jsonObject.optString("big_img_url");
+			object.configKey = jsonObject.optString("config_key");
+			object.arguments = jsonObject.optString("arguments");
+			object.key = jsonObject.optString("key");
+			object.h5Enabled = jsonObject.optBoolean("h5_enabled");
+			object.position = jsonObject.optString("position");
+			object.imgUrl = jsonObject.optString("img_url");
+			object.regular = jsonObject.optString("regular");
+			return object;
+		}
+		
+		public static JSONObject JSONFromObject(BottomConfig object) {
+		    JSONObject jsonObject = new JSONObject();
+		    try { 
+				jsonObject.put("title_on_color", object.titleOnColor);
+				jsonObject.put("title_color", object.titleColor);
+				jsonObject.put("big_img_on_url", object.bigImgOnUrl);
+				jsonObject.put("title", object.title);
+				jsonObject.put("url", object.url);
+				jsonObject.put("start_version", object.startVersion);
+				jsonObject.put("tag", object.tag);
+				jsonObject.put("end_version", object.endVersion);
+				jsonObject.put("img_on_url", object.imgOnUrl);
+				jsonObject.put("big_img_url", object.bigImgUrl);
+				jsonObject.put("config_key", object.configKey);
+				jsonObject.put("arguments", object.arguments);
+				jsonObject.put("key", object.key);
+				jsonObject.put("h5_enabled", object.h5Enabled);
+				jsonObject.put("position", object.position);
+				jsonObject.put("img_url", object.imgUrl);
+				jsonObject.put("regular", object.regular);
+			} catch (JSONException e) {
+			    e.printStackTrace();
+			}
+			
+			return jsonObject; 
+		}
 	
 	    public String getTitleOnColor() {
 	        return titleOnColor;

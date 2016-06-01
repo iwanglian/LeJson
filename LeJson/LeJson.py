@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from JsonParser import gen_dict_meta
+
 __author__ = 'alickwang'
 
-from JsonParser import gen_class_meta
-from LeUtils import cap, s_objc_dialect_list, s_java_dialect_list
+from JsonParser import gen_dict_meta
+from LeUtils import LeUtils, cap, s_objc_dialect_list, s_java_dialect_list
 from ObjcWriter import write_objc_all_class_meta, is_objc_output_expired
 from JavaWriter import write_java_all_class_meta, is_java_output_expired
 
@@ -21,7 +23,7 @@ def get_json_list(dir):
     return json_list
 
 
-def write_class(input_file_path, base_class_name, prefix, dialect, out_path, package):
+def write_class(input_file_path, base_class_name, out_path, package):
     str = ""
     input_file = open(input_file_path)
     for line in input_file.readlines():
@@ -30,20 +32,20 @@ def write_class(input_file_path, base_class_name, prefix, dialect, out_path, pac
     input_file.close()
 
     base_object = json.loads(str)
-    base_class_meta = gen_class_meta(base_class_name, dialect, base_object, prefix)
-    base_class_meta.is_base = True
+    base_dict_meta = gen_dict_meta(base_object)
 
-    if dialect in s_objc_dialect_list:
-        write_objc_all_class_meta(base_class_meta, output_path)
-    elif dialect in s_java_dialect_list:
-        write_java_all_class_meta(base_class_meta, output_path, package)
+    if LeUtils.s_dialect in s_objc_dialect_list:
+        write_objc_all_class_meta(base_dict_meta, output_path)
+    elif LeUtils.s_dialect in s_java_dialect_list:
+        write_java_all_class_meta(base_dict_meta, output_path, package)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='自动生成JSON模型类')
     parser.add_argument('input', metavar='input', nargs='*',
                         help='json文件路径,如果是目录名,则处理目录下所有一级.json文件;默认为当前路径')
-    parser.add_argument('-d', dest='dialect', choices=['mj', 'mt', 'yy', 'gs', 'jc', 'fj', 'ls'], required=True,
+    parser.add_argument('-d', dest='dialect', choices=['mj', 'mt', 'yy', 'jo', 'gs', 'jc', 'fj', 'ls', 'le'],
+                        required=True,
                         help='采用的解析方法,必填.')
     parser.add_argument('-o', dest='output_path', help='输出路径,默认为当前路径')
     parser.add_argument('-f', dest='force_update', action='store_true',
@@ -108,4 +110,8 @@ if __name__ == '__main__':
                 print '%s/%s is latest model, continue!' % (output_path, base_class_name)
                 continue
 
-        write_class(input_file_path, base_class_name, args.field_prefix, args.dialect, output_path, package)
+        LeUtils.s_field_prefix = args.field_prefix
+        LeUtils.s_dialect = args.dialect
+        LeUtils.s_base_class_name = base_class_name
+
+        write_class(input_file_path, base_class_name, output_path, package)

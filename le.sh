@@ -16,3 +16,4 @@ python LeJson/lejson.py -d gs ${prefix} --cp GS ${java_output}  ${java_package} 
 python LeJson/lejson.py -d fj ${prefix} --cp FJ ${java_output}  ${java_package} ${java_input}/TestModel.json -f
 python LeJson/lejson.py -d jc ${prefix} --cp JC ${java_output}  ${java_package} ${java_input}/TestModel.json -f
 python LeJson/lejson.py -d ls ${prefix} --cp LS ${java_output}  ${java_package} ${java_input}/TestModel.json -f
+python LeJson/lejson.py -d jo ${prefix} --cp JO ${java_output}  ${java_package} ${java_input}/TestModel.json -f

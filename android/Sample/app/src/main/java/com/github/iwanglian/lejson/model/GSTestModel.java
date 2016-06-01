@@ -6,20 +6,20 @@
 package com.github.iwanglian.lejson.model;
 
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
-public class JCTestModel {
-	@JsonProperty("white_content")
+public class GSTestModel {
+	@SerializedName("white_content")
 	private List<String> whiteContent; 
-	@JsonProperty("jump_config")
+	@SerializedName("jump_config")
 	private List<JumpConfig> jumpConfig; 
-	@JsonProperty("res_info")
+	@SerializedName("res_info")
 	private String resInfo; 
-	@JsonProperty("bottom_config")
+	@SerializedName("bottom_config")
 	private List<BottomConfig> bottomConfig; 
-	@JsonProperty("result")
+	@SerializedName("result")
 	private int result; 
-	@JsonProperty("is_login")
+	@SerializedName("is_login")
 	private int isLogin; 
 
     public List<String> getWhiteContent() {
@@ -71,37 +71,37 @@ public class JCTestModel {
     } 
 
 	public static class JumpConfig {
-		@JsonProperty("title_on_color")
+		@SerializedName("title_on_color")
 		private String titleOnColor; 
-		@JsonProperty("title_color")
+		@SerializedName("title_color")
 		private String titleColor; 
-		@JsonProperty("big_img_on_url")
+		@SerializedName("big_img_on_url")
 		private String bigImgOnUrl; 
-		@JsonProperty("title")
+		@SerializedName("title")
 		private String title; 
-		@JsonProperty("url")
+		@SerializedName("url")
 		private String url; 
-		@JsonProperty("start_version")
+		@SerializedName("start_version")
 		private String startVersion; 
-		@JsonProperty("end_version")
+		@SerializedName("end_version")
 		private String endVersion; 
-		@JsonProperty("img_on_url")
+		@SerializedName("img_on_url")
 		private String imgOnUrl; 
-		@JsonProperty("big_img_url")
+		@SerializedName("big_img_url")
 		private String bigImgUrl; 
-		@JsonProperty("config_key")
+		@SerializedName("config_key")
 		private String configKey; 
-		@JsonProperty("arguments")
+		@SerializedName("arguments")
 		private String arguments; 
-		@JsonProperty("key")
+		@SerializedName("key")
 		private String key; 
-		@JsonProperty("h5_enabled")
+		@SerializedName("h5_enabled")
 		private boolean h5Enabled; 
-		@JsonProperty("position")
+		@SerializedName("position")
 		private String position; 
-		@JsonProperty("img_url")
+		@SerializedName("img_url")
 		private String imgUrl; 
-		@JsonProperty("regular")
+		@SerializedName("regular")
 		private String regular; 
 	
 	    public String getTitleOnColor() {
@@ -235,39 +235,39 @@ public class JCTestModel {
 	
 
 	public static class BottomConfig {
-		@JsonProperty("title_on_color")
+		@SerializedName("title_on_color")
 		private String titleOnColor; 
-		@JsonProperty("title_color")
+		@SerializedName("title_color")
 		private String titleColor; 
-		@JsonProperty("big_img_on_url")
+		@SerializedName("big_img_on_url")
 		private String bigImgOnUrl; 
-		@JsonProperty("title")
+		@SerializedName("title")
 		private String title; 
-		@JsonProperty("url")
+		@SerializedName("url")
 		private String url; 
-		@JsonProperty("start_version")
+		@SerializedName("start_version")
 		private String startVersion; 
-		@JsonProperty("tag")
+		@SerializedName("tag")
 		private String tag; 
-		@JsonProperty("end_version")
+		@SerializedName("end_version")
 		private String endVersion; 
-		@JsonProperty("img_on_url")
+		@SerializedName("img_on_url")
 		private String imgOnUrl; 
-		@JsonProperty("big_img_url")
+		@SerializedName("big_img_url")
 		private String bigImgUrl; 
-		@JsonProperty("config_key")
+		@SerializedName("config_key")
 		private String configKey; 
-		@JsonProperty("arguments")
+		@SerializedName("arguments")
 		private String arguments; 
-		@JsonProperty("key")
+		@SerializedName("key")
 		private String key; 
-		@JsonProperty("h5_enabled")
+		@SerializedName("h5_enabled")
 		private boolean h5Enabled; 
-		@JsonProperty("position")
+		@SerializedName("position")
 		private String position; 
-		@JsonProperty("img_url")
+		@SerializedName("img_url")
 		private String imgUrl; 
-		@JsonProperty("regular")
+		@SerializedName("regular")
 		private String regular; 
 	
 	    public String getTitleOnColor() {

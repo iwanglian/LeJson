@@ -1,10 +1,10 @@
 import os
 
-from LeUtils import gen_desc, s_objc_dialect_list
+from LeUtils import LeUtils, gen_desc, s_objc_dialect_list, s_dict_types, s_list_types
 from FieldMeta import FieldMeta
 
 
-def is_objc_output_expired(input_file_path, out_path,base_class_name):
+def is_objc_output_expired(input_file_path, out_path, base_class_name):
     head_path = os.path.join(out_path, base_class_name + '.h')
     body_path = os.path.join(out_path, base_class_name + '.m')
     if not os.path.exists(head_path) or not os.path.exists(body_path):
@@ -21,8 +21,8 @@ def is_objc_output_expired(input_file_path, out_path,base_class_name):
 
 
 def write_objc_all_class_meta(base_class_meta, path):
-    head_fp = open(os.path.join(path, base_class_meta.name + ".h"), 'w')
-    body_fp = open(os.path.join(path, base_class_meta.name + ".m"), 'w')
+    head_fp = open(os.path.join(path, LeUtils.s_base_class_name + ".h"), 'w')
+    body_fp = open(os.path.join(path, LeUtils.s_base_class_name + ".m"), 'w')
 
     desc = gen_desc()
 
@@ -30,7 +30,7 @@ def write_objc_all_class_meta(base_class_meta, path):
     body_fp.write(desc)
 
     str = "#import <Foundation/Foundation.h>\n"
-    if base_class_meta.dialect == 'mt':
+    if LeUtils.s_dialect == 'mt':
         str += "#import <Mantle/Mantle.h>\n"
     str += "\n"
 
@@ -40,7 +40,7 @@ def write_objc_all_class_meta(base_class_meta, path):
     head_fp.write(str)
     head_fp.flush()
 
-    str = '#import "%s.h"\n\n' % base_class_meta.name
+    str = '#import "%s.h"\n\n' % LeUtils.s_base_class_name
     body_fp.write(str)
     body_fp.flush()
 
@@ -53,12 +53,23 @@ def write_objc_all_class_meta(base_class_meta, path):
     print '%s OK!' % body_fp.name
 
 
-def write_objc_class_declare(class_meta, str):
-    for field_meta in class_meta.field_meta_list:
-        if field_meta.class_meta:
-            str += "@class %s;\n" % field_meta.class_meta.name
-            str = write_objc_class_declare(field_meta.class_meta, str)
-    return str
+def write_objc_class_declare(class_meta, out_str):
+    for field_meta in class_meta.field_meta_array:
+        if field_meta.field_type in s_dict_types:
+            out_str += "@class %s;\n" % field_meta.dict_meta.get_objc_class_name()
+            out_str = write_objc_class_declare(field_meta.dict_meta, out_str)
+        elif field_meta.field_type in s_list_types:
+            out_str = write_objc_list_declare(field_meta.list_meta, out_str)
+    return out_str
+
+
+def write_objc_list_declare(list_meta, out_str):
+    if list_meta.list_type in s_list_types:
+        out_str = write_objc_list_declare(list_meta.list_meta, out_str)
+    elif list_meta.list_type in s_dict_types:
+        out_str += "@class %s;\n" % list_meta.dict_meta.get_objc_class_name()
+        out_str = write_objc_class_declare(list_meta.dict_meta, out_str)
+    return out_str
 
 
 def write_objc_class_meta(class_meta, head_fp, body_fp):
@@ -70,16 +81,15 @@ def write_objc_class_meta(class_meta, head_fp, body_fp):
     body_fp.write(body_str)
     body_fp.flush()
 
-    for field_meta in class_meta.field_meta_list:
-        if field_meta.generic_type in FieldMeta.s_list_types:
-            write_objc_list_meta(field_meta.class_meta, head_fp, body_fp)
-        elif field_meta.generic_type in FieldMeta.s_dict_types:
-            write_objc_class_meta(field_meta.class_meta, head_fp, body_fp)
+    for field_meta in class_meta.field_meta_array:
+        if field_meta.field_type in s_list_types:
+            write_objc_list_meta(field_meta.list_meta, head_fp, body_fp)
+        elif field_meta.field_type in s_dict_types:
+            write_objc_class_meta(field_meta.dict_meta, head_fp, body_fp)
 
 
-def write_objc_list_meta(class_meta, head_fp, body_fp):
-    field_meta = class_meta.field_meta_list[0]
-    if field_meta.generic_type in FieldMeta.s_list_types:
-        write_objc_list_meta(field_meta.class_meta, head_fp, body_fp)
-    elif field_meta.generic_type in FieldMeta.s_dict_types:
-        write_objc_class_meta(field_meta.class_meta, head_fp, body_fp)
+def write_objc_list_meta(list_meta, head_fp, body_fp):
+    if list_meta.list_type in s_list_types:
+        write_objc_list_meta(list_meta.list_meta, head_fp, body_fp)
+    elif list_meta.list_type in s_dict_types:
+        write_objc_class_meta(list_meta.dict_meta, head_fp, body_fp)

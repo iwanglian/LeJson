@@ -39,11 +39,16 @@ task lejsonLS(type: Exec) {
     commandLine 'python','../../LeJson/lejson.py' ,'-d', 'ls', '--cp', 'LS', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
 }
 
+task lejsonJO(type: Exec) {
+    commandLine 'python','../../LeJson/lejson.py' ,'-d', 'jo', '--cp', 'JO', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
+}
+
 task lejson{
-    dependsOn 'lejsonGS'
-    dependsOn 'lejsonFJ'
-    dependsOn 'lejsonJC'
-    dependsOn 'lejsonLS'
+//    dependsOn 'lejsonGS'
+//    dependsOn 'lejsonFJ'
+//    dependsOn 'lejsonJC'
+//    dependsOn 'lejsonLS'
+//    dependsOn 'lejsonJO'
 
 }
 

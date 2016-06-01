@@ -23,6 +23,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
+//    compile project(':lemodel')
     compile group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
     compile group: 'com.alibaba', name: 'fastjson', version: '1.1.51.android'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.7.4'

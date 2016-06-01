@@ -12,15 +12,16 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import org.json.JSONObject;
+
+import com.alibaba.fastjson.JSON;
+import com.github.iwanglian.lejson.model.FJTestModel;
 import com.google.gson.Gson;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.alibaba.fastjson.JSON;
 import com.bluelinelabs.logansquare.LoganSquare;
-
 import com.github.iwanglian.lejson.model.JCTestModel;
-import com.github.iwanglian.lejson.model.FJTestModel;
 import com.github.iwanglian.lejson.model.GSTestModel;
 import com.github.iwanglian.lejson.model.LSTestModel;
+import com.github.iwanglian.lejson.model.JOTestModel;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ObjectMapper objectMapper;
     private Gson gson;
     private Handler mHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
                 Date beforeAN = new Date();
                 for (int i = 0; i < round; i++) {
-                    testJA();
+                    testJO();
                 }
                 Date afterAN = new Date();
                 long durationAN = afterAN.getTime() - beforeAN.getTime();
-                String resultAN = String.format("\nJava run %d times, duration: %f\n", round, durationAN / 1000.0f);
+                String resultAN = String.format("\nJO run %d times, duration: %f\n", round, durationAN / 1000.0f);
                 Message msg = new Message();
                 msg.what = 1;
                 msg.obj = resultAN;
@@ -126,13 +128,24 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-        },2000);
+        },500);
+    }
+
+    private void testJO() {
+        try {
+            JOTestModel testModel = JOTestModel.objectFromString(jsonStr);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void testGS() {
+        try {
         GSTestModel testModel = gson.fromJson(jsonStr, GSTestModel.class);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
-
 
     private void testJA() {
         try {
@@ -152,7 +165,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void testFJ() {
+        try {
         FJTestModel testModel = JSON.parseObject(jsonStr, FJTestModel.class);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void testLS() {

@@ -1,14 +1,65 @@
 import getpass
 import time, types
 
+
+class LeUtils:
+    def __init__(self):
+        pass
+
+    s_dialect = None
+    s_class_prefix = ''
+    s_field_prefix = ''
+    s_base_class_name = ''
+
+
 s_intern_cls_list = ["NSNumber", "NSString", "NSMutableArray"]
 
 s_objc_keyword_replace = {'id': 'ID',
                           'description': 'DESCRIPTION'}
 s_objc_dialect_list = ['mj', 'mt', 'yy']
-s_java_dialect_list = ['gs', 'fj', 'jc', 'ls']
+s_java_dialect_list = ['jo', 'gs', 'fj', 'jc', 'ls', 'le']
 
 s_max_int32 = 2147483647
+
+s_java_number_type_str_map = {types.IntType: 'int',
+                              types.FloatType: 'double',
+                              types.BooleanType: 'boolean',
+                              types.LongType: 'long',
+                              }
+
+s_java_simple_type_object_map = {types.IntType: 'Integer',
+                                 types.FloatType: 'Double',
+                                 types.BooleanType: 'Boolean',
+                                 types.LongType: 'Long',
+                                 types.StringType: 'String',
+                                 types.UnicodeType: 'String'
+                                 }
+
+s_objc_simple_type_object_map = {types.IntType: 'NSNumber',
+                                 types.FloatType: 'NSNumber',
+                                 types.BooleanType: 'NSNumber',
+                                 types.LongType: 'NSNumber',
+                                 types.StringType: 'NSString',
+                                 types.UnicodeType: 'NSString'
+                                 }
+
+s_java_jo_simple_type_put_map = {types.IntType: 'optInt',
+                                 types.FloatType: 'optDouble',
+                                 types.BooleanType: 'optBoolean',
+                                 types.LongType: 'optLong',
+                                 types.StringType: 'optString',
+                                 types.UnicodeType: 'optString'
+                                 }
+
+s_number_types = [types.IntType, types.FloatType, types.BooleanType, types.LongType]
+s_string_types = [types.StringType, types.UnicodeType]
+s_list_types = [types.ListType]
+s_dict_types = [types.DictType]
+s_objc_number_type_str_map = {types.IntType: 'int',
+                              types.FloatType: 'float',
+                              types.BooleanType: 'BOOL',
+                              types.LongType: 'long',
+                              }
 
 
 def leType(value):
@@ -51,3 +102,14 @@ def gen_desc():
     str += "// Created by " + getpass.getuser() + " on " + time.strftime(ISOTIMEFORMAT,
                                                                          time.localtime()) + ",  DO NOT EDIT!\n\n"
     return str
+
+
+def str_with_indent(str, count):
+    return ("\t" * count).join(str.splitlines(True))
+
+
+def str_with_suf(str, number):
+    if number:
+        return '%s%d' % (str, number)
+    else:
+        return str
