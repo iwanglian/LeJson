@@ -101,38 +101,40 @@ class FieldMeta:
         return type_str
 
     def gen_java_gs_declare(self):
-        type_str = self.get_java_type_str()
         str = ''
         str += '\t@SerializedName("%s")\n' % self.orig
-        str += '\tprivate %s %s; ' % (type_str, self.name)
+        str += self.get_java_declare()
         return str
 
     def gen_java_fj_declare(self):
-        type_str = self.get_java_type_str()
         str = ''
         str += '\t@JSONField(name = "%s")\n' % self.orig
-        str += '\tprivate %s %s; ' % (type_str, self.name)
+        str += self.get_java_declare()
         return str
 
     def gen_java_ja_declare(self):
-        type_str = self.get_java_type_str()
         str = ''
         str += '\t@JsonProperty("%s")\n' % self.orig
-        str += '\tprivate %s %s; ' % (type_str, self.name)
+        str += self.get_java_declare()
         return str
 
     def gen_java_ls_declare(self):
-        type_str = self.get_java_type_str()
         str = ''
         str += '\t@JsonField(name = "%s")\n' % self.orig
-        str += '\tprivate %s %s; ' % (type_str, self.name)
+        str += self.get_java_declare()
         return str
 
     def gen_java_jo_declare(self):
-        type_str = self.get_java_type_str()
-        str = ''
-        str += '\tprivate %s %s; ' % (type_str, self.name)
+        str = self.get_java_declare()
         return str
+
+    def get_java_declare(self):
+        type_str = self.get_java_type_str()
+        if LeUtils.s_java_public:
+            return '\tpublic %s %s; ' % (type_str, self.name)
+        else:
+            return '\tprivate %s %s; ' % (type_str, self.name)
+
 
     def gen_java_gs_getter_setter(self):
         cname = cap(self.name)

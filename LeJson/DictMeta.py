@@ -200,10 +200,10 @@ class DictMeta:
             if method_str:
                 str += str_with_indent(method_str, 1)
 
-        for field_meta in self.field_meta_array:
-            field_str = field_meta.gen_java_gs_getter_setter()
-            str += field_str + '\n'
-
+        if not LeUtils.s_java_public:
+            for field_meta in self.field_meta_array:
+                field_str = field_meta.gen_java_gs_getter_setter()
+                str += field_str + '\n'
 
         for field_meta in self.field_meta_array:
             field_str = ""
@@ -237,7 +237,7 @@ public static JSONObject JSONFromObject({class_name} object) {{
     try {{ '''.format(class_name=self.get_java_class_name())
         field_str = ''
         for field_meta in self.field_meta_array:
-            field_str += str_with_indent(field_meta.gen_java_jo_o2j(),1)
+            field_str += str_with_indent(field_meta.gen_java_jo_o2j(), 1)
         field_str += '''
 } catch (JSONException e) {
     e.printStackTrace();

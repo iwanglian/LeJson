@@ -60,6 +60,8 @@ if __name__ == '__main__':
     parser.add_argument('--pkg', dest='package', help='如果是Java类,需要指定其package;默认会根据 OUTPUT_PATH 计算')
     # parser.add_argument('-r', action='store_true',
     #                     help='reuse model ,if key and value type matched ,reuse it instead create one')
+    parser.add_argument('--jp', dest='java_public', action='store_true',
+                        help='生成Java代码的字段限定为public,不使用getter和setter')
     args = parser.parse_args()
 
     input_file_list = []
@@ -113,5 +115,6 @@ if __name__ == '__main__':
         LeUtils.s_field_prefix = args.field_prefix
         LeUtils.s_dialect = args.dialect
         LeUtils.s_base_class_name = base_class_name
+        LeUtils.s_java_public = args.java_public
 
         write_class(input_file_path, base_class_name, output_path, package)

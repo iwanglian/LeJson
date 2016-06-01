@@ -128,12 +128,13 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-        },500);
+        }, 500);
     }
 
     private void testJO() {
         try {
             JOTestModel testModel = JOTestModel.objectFromString(jsonStr);
+            int i=0;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -141,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void testGS() {
         try {
-        GSTestModel testModel = gson.fromJson(jsonStr, GSTestModel.class);
+            GSTestModel testModel = gson.fromJson(jsonStr, GSTestModel.class);
+            int i=0;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -158,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private void testJC() {
         try {
             JCTestModel testModel = objectMapper.readValue(jsonStr, JCTestModel.class);
+            int i=0;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -166,7 +169,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void testFJ() {
         try {
-        FJTestModel testModel = JSON.parseObject(jsonStr, FJTestModel.class);
+            FJTestModel testModel = JSON.parseObject(jsonStr, FJTestModel.class);
+            int i=0;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -175,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
     private void testLS() {
         try {
             LSTestModel testModel = LoganSquare.parse(jsonStr, LSTestModel.class);
+            int i=0;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
