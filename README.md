@@ -57,7 +57,7 @@ optional arguments:
                         er和setter
 ```
 
-## 目前支持以下7种解析Json方法
+## 目前支持以下8种解析Json方法
 ### Ojbective-C
 1. mj [MJExtension](https://github.com/CoderMJLee/MJExtension)
 2. mt [Mantle](https://github.com/Mantle/Mantle)
@@ -108,6 +108,7 @@ ProtoBuf` 根据 `proto` 定义文件,使用工具自动生成 `Objective-C` 和
 结合第二阶段的工具, 简单的跑跑脚本,再改些配置, 就完成了一条网络协议的开发.
 
 `LeJson` 是用 `Python` 写的,选择这个语言的理由,
+
 1. 我比较熟悉, 之前也写了一些工具  [Tools](https://github.com/iwanglian/tools)
 2. Mac系统自带, 不需要再安装软件.
 3. 语法简单, 方便其它同事理解 ,并提出问题.

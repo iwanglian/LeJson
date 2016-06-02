@@ -64,6 +64,10 @@ if __name__ == '__main__':
     #                     help='reuse model ,if key and value type matched ,reuse it instead create one')
     parser.add_argument('--jp', dest='java_public', action='store_true',
                         help='生成Java代码的字段限定为public,不使用getter和setter')
+    parser.add_argument('--nser', dest='no_serialize', action='store_true',
+                        help='不生成序列化代码,目前只用于 jo')
+    parser.add_argument('--ndes', dest='no_deserialize', action='store_true',
+                        help='不生成反序列化代码,目前只用于 jo')
     args = parser.parse_args()
 
     input_file_list = []
@@ -127,5 +131,7 @@ if __name__ == '__main__':
         LeUtils.s_dialect = args.dialect
         LeUtils.s_base_class_name = base_class_name
         LeUtils.s_java_public = args.java_public
+        LeUtils.s_no_serialize = args.no_serialize
+        LeUtils.s_no_deserialize = args.no_deserialize
 
         write_class(input_file_path, base_class_name, output_path, package)

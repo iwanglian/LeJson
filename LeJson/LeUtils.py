@@ -11,6 +11,8 @@ class LeUtils:
     s_field_prefix = ''
     s_base_class_name = ''
     s_java_public = False
+    s_no_serialize = False
+    s_no_deserialize = False
 
 
 s_intern_cls_list = ["NSNumber", "NSString", "NSMutableArray"]

@@ -194,9 +194,15 @@ class DictMeta:
 
         if LeUtils.s_dialect in ['jo']:
             if self.is_base():
-                str += self.gen_java_jo_so()
-            method_str = self.gen_java_jo_objectfromjson()
-            method_str += self.gen_java_jo_jsonfromobject()
+                if not LeUtils.s_no_serialize:
+                    str += self.gen_java_jo_o2s()
+                if not LeUtils.s_no_deserialize:
+                    str += self.gen_java_jo_s2o()
+            method_str =''
+            if not LeUtils.s_no_serialize:
+                method_str += self.gen_java_jo_jsonfromobject()
+            if not LeUtils.s_no_deserialize:
+                method_str += self.gen_java_jo_objectfromjson()
             if method_str:
                 str += str_with_indent(method_str, 1)
 
@@ -219,8 +225,7 @@ class DictMeta:
         str = ''
         str += '''
 public static {class_name} objectFromJSON(JSONObject jsonObject) {{
-    {class_name} object = new {class_name}();
-'''.format(class_name=self.get_java_class_name())
+    {class_name} object = new {class_name}(); '''.format(class_name=self.get_java_class_name())
         field_str = ''
         for field_meta in self.field_meta_array:
             field_str += field_meta.gen_java_jo_j2o()
@@ -248,13 +253,17 @@ return jsonObject; '''
         str += '\n}\n'
         return str
 
-    def gen_java_jo_so(self):
+    def gen_java_jo_s2o(self):
         str = '''
     public static {class_name} objectFromString(String string) throws JSONException {{
         JSONObject jsonObject = new JSONObject(string);
         return objectFromJSON(jsonObject);
     }}
+'''.format(class_name=self.get_java_class_name())
+        return str
 
+    def gen_java_jo_o2s(self):
+        str = '''
     public static String stringFromObject({class_name} object) throws JSONException {{
         JSONObject jsonObject = JSONFromObject(object);
         return jsonObject.toString();
