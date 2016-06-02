@@ -193,7 +193,7 @@ class DictMeta:
             str += field_str + '\n'
 
         if LeUtils.s_dialect in ['jo']:
-            if self.is_base():
+            if self.is_base() and not LeUtils.s_no_string:
                 if not LeUtils.s_no_serialize:
                     str += self.gen_java_jo_o2s()
                 if not LeUtils.s_no_deserialize:

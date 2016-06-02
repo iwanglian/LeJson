@@ -20,8 +20,8 @@ python LeJson.py -d mj -o <model_path> <json_path>`
 3. 在`app`的 `build.gradle` 中引入 `gson` 或其它库
 4. 在主工程的  `build.gradle` 加入 task:
 ```groovy
-task lejsonGS(type: Exec) {
-    commandLine 'python','../../LeJson/lejson.py' ,'-d', 'gs', '--cp', 'GS', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
+task lejsonJO(type: Exec) {
+    commandLine 'python','../../LeJson/lejson.py' ,'-d', 'jo', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
 }
 ```
 5. 编辑 `app` 的 `Configurations`, 在 `General` 的 `Before Launch` 插入刚创建的 `lejson` task, 放在 `Gradle-aware Make` 之前 
@@ -32,7 +32,7 @@ task lejsonGS(type: Exec) {
 ```
 usage: LeJson.py [-h] -d {mj,mt,yy,jo,gs,jc,fj,ls,le} [-o OUTPUT_PATH] [-f]
                  [-k] [--fp FIELD_PREFIX] [--cp CLASS_PREFIX] [--pkg PACKAGE]
-                 [--jp]
+                 [-b] [-s] [-e] [-t]
                  [input [input ...]]
 
 自动生成JSON模型类
@@ -52,9 +52,12 @@ optional arguments:
   --fp FIELD_PREFIX     生成字段的前缀
   --cp CLASS_PREFIX     输出结果类名的前缀
   --pkg PACKAGE         如果是Java类,需要指定其package;默认会根据
-                         OUTPUT_PATH 计算
-  --jp                  生成Java代码的字段限定为public,不使用gett
+                        OUTPUT_PATH 计算
+  -b                    生成Java代码的字段限定为public,不使用gett
                         er和setter
+  -s                    不生成序列化代码,目前只用于 jo
+  -e                    不生成反序列化代码,目前只用于 jo
+  -t                    不生成string转换的方法,目前只用于 jo
 ```
 
 ## 目前支持以下8种解析Json方法

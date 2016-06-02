@@ -13,6 +13,7 @@ class LeUtils:
     s_java_public = False
     s_no_serialize = False
     s_no_deserialize = False
+    s_no_string = False
 
 
 s_intern_cls_list = ["NSNumber", "NSString", "NSMutableArray"]

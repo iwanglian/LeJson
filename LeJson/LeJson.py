@@ -62,12 +62,14 @@ if __name__ == '__main__':
     parser.add_argument('--pkg', dest='package', help='如果是Java类,需要指定其package;默认会根据 OUTPUT_PATH 计算')
     # parser.add_argument('-r', action='store_true',
     #                     help='reuse model ,if key and value type matched ,reuse it instead create one')
-    parser.add_argument('--jp', dest='java_public', action='store_true',
+    parser.add_argument('-b', dest='java_public', action='store_true',
                         help='生成Java代码的字段限定为public,不使用getter和setter')
-    parser.add_argument('--nser', dest='no_serialize', action='store_true',
+    parser.add_argument('-s', dest='no_serialize', action='store_true',
                         help='不生成序列化代码,目前只用于 jo')
-    parser.add_argument('--ndes', dest='no_deserialize', action='store_true',
+    parser.add_argument('-e', dest='no_deserialize', action='store_true',
                         help='不生成反序列化代码,目前只用于 jo')
+    parser.add_argument('-t', dest='no_string', action='store_true',
+                        help='不生成string转换的方法,目前只用于 jo')
     args = parser.parse_args()
 
     input_file_list = []
@@ -133,5 +135,6 @@ if __name__ == '__main__':
         LeUtils.s_java_public = args.java_public
         LeUtils.s_no_serialize = args.no_serialize
         LeUtils.s_no_deserialize = args.no_deserialize
+        LeUtils.s_no_string = args.no_string
 
         write_class(input_file_path, base_class_name, output_path, package)

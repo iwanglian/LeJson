@@ -193,7 +193,7 @@ public class JOTestModel implements Parcelable {
 	}
 	
 
-	public static class Stories {
+	public static class Stories implements Parcelable {
 		private List<String> images; 
 		private int type; 
 		private int ID; 
@@ -280,7 +280,44 @@ public class JOTestModel implements Parcelable {
 	
 	    public void setTitle(String title) {
 	        this.title = title;
-	    } 
+	    }
+
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			dest.writeStringList(this.images);
+			dest.writeInt(this.type);
+			dest.writeInt(this.ID);
+			dest.writeString(this.gaPrefix);
+			dest.writeString(this.title);
+		}
+
+		public Stories() {
+		}
+
+		protected Stories(Parcel in) {
+			this.images = in.createStringArrayList();
+			this.type = in.readInt();
+			this.ID = in.readInt();
+			this.gaPrefix = in.readString();
+			this.title = in.readString();
+		}
+
+		public static final Creator<Stories> CREATOR = new Creator<Stories>() {
+			@Override
+			public Stories createFromParcel(Parcel source) {
+				return new Stories(source);
+			}
+
+			@Override
+			public Stories[] newArray(int size) {
+				return new Stories[size];
+			}
+		};
 	}
 
 	@Override

@@ -43,9 +43,7 @@ def write_java_all_class_meta(base_class_meta, path, package):
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-'''
+import org.json.JSONObject; '''
 
     str += '\n'
     java_fp.write(str);
