@@ -70,7 +70,7 @@ optional arguments:
 1. jo [JSONObject](http://github.com/iwanglian/LeJson)
 1. gs [gson](https://github.com/google/gson)
 2. fj [fastjson](https://github.com/alibaba/fastjson)
-3. ja [jackson](https://github.com/FasterXML/jackson)
+3. jc [jackson](https://github.com/FasterXML/jackson)
 4. ls [LoganSquare](https://github.com/bluelinelabs/LoganSquare)
 
 ## benchwork

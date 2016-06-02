@@ -247,7 +247,6 @@ public static JSONObject JSONFromObject({class_name} object) {{
 } catch (JSONException e) {
     e.printStackTrace();
 }
-
 return jsonObject; '''
         str += str_with_indent(field_str, 1)
         str += '\n}\n'
