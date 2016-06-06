@@ -28,19 +28,23 @@ task lejsonGS(type: Exec) {
 
 task lejsonFJ(type: Exec) {
     commandLine 'python','../../LeJson/lejson.py' ,'-d', 'fj', '--cp', 'FJ', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
+    group = "lejson"
 }
 
 
 task lejsonJC(type: Exec) {
     commandLine 'python','../../LeJson/lejson.py' ,'-d', 'jc', '--cp', 'JC', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
+    group = "lejson"
 }
 
 task lejsonLS(type: Exec) {
     commandLine 'python','../../LeJson/lejson.py' ,'-d', 'ls', '--cp', 'LS', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
+    group = "lejson"
 }
 
 task lejsonJO(type: Exec) {
     commandLine 'python','../../LeJson/lejson.py' ,'-d', 'jo', '--cp', 'JO', '-o', 'app/src/main/java/com/github/iwanglian/lejson/model','app/src/main/assets'
+    group = "lejson"
 }
 
 task lejson{
@@ -49,5 +53,6 @@ task lejson{
     dependsOn 'lejsonJC'
     dependsOn 'lejsonLS'
     dependsOn 'lejsonJO'
+    group = "lejson"
 }
 

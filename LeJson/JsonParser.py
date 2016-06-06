@@ -41,8 +41,9 @@ def gen_dict_meta(base_value):
             else:
                 field_name = u2c(prop)
 
-        if field_name in s_objc_keyword_replace.keys():
-            field_name = s_objc_keyword_replace[field_name]
+        if LeUtils.s_dialect in s_objc_dialect_list:
+            if field_name in s_objc_keyword_replace.keys():
+                field_name = s_objc_keyword_replace[field_name]
 
         field_meta = gen_field_meta(field_name, prop, value)
         field_meta.parent_dict_meta = base_dict_meta
