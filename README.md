@@ -9,7 +9,7 @@
 3. 使用 `cocoapod` 导入 `MJExtension` 或 `YYModel`  `Mantle`
 3. 在工程 `build phrase` 中新增一个 `run script`  ,放在 `complie source` 之前  
 ```bash
-python lejson.py -d mj -o <model_path> <json_path>
+python <lejson.py_path> -d mj -o <model_path> <json_path>
 ```
 4. 每次修改或新增 `json` 文件, 编译工程,就会自动生成相应的 `Model` 代码
 5. 如果有新增的文件,手动加入到XCode工程中.
